@@ -1,11 +1,9 @@
 import sys
 sys.path.append("../../../utils")  # Ajoute le chemin du module parent au chemin de recherche de modules
 import utils
-
-import datetime
-import re
-import time
+import datetime, re, time, json, os
 from colorama import Fore
+
 
 class PlayerModel:
     def __init__(self, first_name="", last_name="", birth_date=None, identification_code=""):
@@ -13,19 +11,19 @@ class PlayerModel:
         self._last_name = last_name
         self._birth_date = self._validate_birth_date(birth_date)
         self._identification_code = identification_code
-        self._score = 0  # Ajout d'un attribut score
+        
 
 
     # Getter methods
     def get_first_name(self) -> str:
         if self._first_name is not None:
-            return f"First Name: {(self._first_name).capitalize()}"
+            return (self._first_name).capitalize()
         else:
             return None
 
     def get_last_name(self) -> str:
         if self._last_name is not None:
-            return f"Last Name: {(self._last_name).upper()}"
+            return (self._last_name).upper()
         else:
             return None
 
@@ -35,8 +33,7 @@ class PlayerModel:
     def get_identification_code(self) -> str:
         return self._identification_code
 
-    def get_score(self) -> int:
-        return self._score
+    
 
 
 
@@ -54,8 +51,7 @@ class PlayerModel:
 
         self._identification_code = self._validate_identification_code(identification_code)
 
-    def set_score(self, score):
-        self._score = score
+    
 
 
     # Validate func
@@ -72,13 +68,21 @@ class PlayerModel:
     def _validate_identification_code(self, identification_code_str):
         
         pattern_code = re.compile("[A-Za-z0-9]+")
-        pattern_code.fullmatch(identification_code_str)
-  
-        if len(identification_code_str) > 7 or len(identification_code_str) < 7 or pattern_code.fullmatch(identification_code_str) is None:
+        
+
+        pattern_code_alpha = re.compile("[A-Za-z]+")
+        
+
+        if (len(identification_code_str) != 7 
+                or (pattern_code_alpha.fullmatch(identification_code_str[:2]) == None 
+                or pattern_code.fullmatch(identification_code_str) == None)):
+
             print(Fore.RED + "ERROR identification_code invalid" + Fore.RESET)
             return None
+
+
         else:
-            return f"Identification Code: {(identification_code_str)}"
+            return (identification_code_str.upper())
 
 
     def _validate_birth_date(self, birth_date_str):
@@ -104,27 +108,32 @@ class PlayerModel:
         if self._birth_date is None:
             return None
         else:
-            return f"Birth Date: ({self._birth_date[0]}, {self._birth_date[1]:02d}, {self._birth_date[2]})"
+            return f"{self._birth_date[0]}, {self._birth_date[1]:02d}, {self._birth_date[2]}"
 
 
-    
-    
 
-# Example usage:
-if __name__ == "__main__":
-    # Create an instance of the PlayerModel
-    player = PlayerModel()
 
-    # Set player attributes
-    try:
-        player.set_first_name(("jean"))
-        player.set_last_name(("Dupont"))
-        player.set_birth_date(("10/01/1999"))
-        
-    except ValueError as e:
-        print(e)
+class WriteForBddPlayer:
+    def __init__(self, file_path):
+        self.file_path = file_path
 
-    # Get and print player information
-    print(player.get_first_name(), type(player.get_first_name()))
-    print(player.get_last_name(), type(player.get_last_name()))
-    print(player.formatted_birth_date(), type(player.formatted_birth_date()))
+    def write_player(self, first_name, last_name, birth_date, identification_code):
+        # Charger les données existantes depuis le fichier JSON
+        with open(self.file_path, 'r') as file:
+            data = json.load(file)
+
+        # Créer un nouvel enregistrement pour le joueur
+        player_record = {
+            'first_name': first_name,
+            'last_name': last_name,
+            'birth_date': birth_date,
+            'identification_code': identification_code
+        }
+
+        # Ajouter le nouvel enregistrement à la liste des joueurs
+        data['players'] = data.get('players', []) + [player_record]
+
+        # Écrire les données mises à jour dans le fichier JSON
+        with open(self.file_path, 'w') as file:
+            json.dump(data, file, indent=2)
+

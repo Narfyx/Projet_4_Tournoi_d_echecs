@@ -50,10 +50,7 @@ class TerminalMenuChoice:
   
             except ValueError as e:
                 print(e)
-            print(player.get_first_name(), type(player.get_first_name()))
-            print(player.get_last_name(), type(player.get_last_name()))
-            print(player.formatted_birth_date(), type(player.formatted_birth_date()))
-            print(player.get_identification_code(), type(player.get_identification_code()))
+
 
             if (player.get_first_name() is None or 
                 player.get_last_name() is None or 
@@ -61,7 +58,28 @@ class TerminalMenuChoice:
                 player.get_identification_code() is None):
  
                 self.handle_choice(choice="1")
-            
+            else:
+                
+                #IL FAUT AJOUTER ICI CHECK SI LES INFOS DONNER HORS PRENOM 
+                # ET DATE DE NAISSANCE NE SONT PAS DEJA PRESENTE DANS LA BDD
+
+                print(player.get_first_name(), type(player.get_first_name()))
+                print(player.get_last_name(), type(player.get_last_name()))
+                print(player.formatted_birth_date(), type(player.formatted_birth_date()))
+                print(player.get_identification_code(), type(player.get_identification_code()))
+                """"""
+                
+                json_file_path = 'data/players/players.json'
+                #writer = player.WriteForBddPlayer(json_file_path)
+                writer = utils.MVC.Model.ModelPlayer.WriteForBddPlayer(json_file_path)
+                
+                writer.write_player(
+                    first_name = player.get_first_name(),
+                    last_name = player.get_last_name(),
+                    birth_date = player.formatted_birth_date(),
+                    identification_code = player.get_identification_code()
+                )
+                
         elif choice == "2":
             print("You chose Option 2.")
             

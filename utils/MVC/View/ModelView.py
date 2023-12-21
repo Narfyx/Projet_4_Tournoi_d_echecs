@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../../../utils")  # Ajoute le chemin du module parent au chemin de recherche de modules
+sys.path.append("../../../utils")  # Ajoute le chemin du module parent du parent du parent au chemin de recherche de modules
 import utils
 
 import os
@@ -38,13 +38,13 @@ class TerminalMenu:
         """
         first_name = "jean"
         last_name = "dupont"
-        birth_date = "10/10/10000"
-        identification_code = "AB12345"
+        birth_date = "10/10/1000"
+        identification_code = "AN12345"
         """
-        # Vous pouvez utiliser ces valeurs pour créer un nouvel objet joueur, par exemple
+        #  ces valeurs pour créer un nouvel objet joueur, par exemple
         
         
-        # Vous pouvez ensuite effectuer les actions nécessaires avec le nouveau joueur, par exemple l'ajouter à la base de données
+        # les actions nécessaires avec le nouveau joueur, par exemple l'ajouter à la base de données
 
         #print("Joueur ajouté avec succès !")
         input("Appuyez sur Entrée pour revenir au menu principal...")

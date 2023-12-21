@@ -1,0 +1,28 @@
+{
+  "players": [
+    {
+      "first_name": "Jean",
+      "last_name": "DUPONT",
+      "birth_date": "9, 05, 1984",
+      "identification_code": "AB12345"
+    },
+    {
+      "first_name": "Michel",
+      "last_name": "GRENIER",
+      "birth_date": "8, 04, 1956",
+      "identification_code": "EX26824"
+    },
+    {
+      "first_name": "Kevin",
+      "last_name": "ABRIBAT",
+      "birth_date": "9, 05, 2000",
+      "identification_code": "KE09052"
+    },
+    {
+      "first_name": "Robert",
+      "last_name": "DUCHAMPS",
+      "birth_date": "6, 03, 1958",
+      "identification_code": "UI98765"
+    }
+  ]
+}

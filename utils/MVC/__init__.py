@@ -2,7 +2,11 @@
 #Fichiers
 # Dans le fichier __init__.py du module
 
+import json
 import os
+
+PLAYER_DIRECTORY = "data/players/"
+TOURNAMENTS_DIRECTORY = "data/tournaments/"
 
 def create_directory_if_not_exists(directory_path):
     if not os.path.exists(directory_path):
@@ -24,14 +28,40 @@ else:
     input("Appuyez sur Entrée pour quit...")
     quit()
 
-# Définissez les chemins des répertoires à créer
-players_directory = os.path.join(script_directory, "../../data/players/")
-tournaments_directory = os.path.join(script_directory, "../../data/tournaments/")
 
-# Exécution du script pour créer les répertoires
+
+
+
+class JSONDatabase:
+    def __init__(self, directory_path):
+        self.file_path = os.path.join(directory_path, 'players.json')
+        self.data = {}
+
+    def create_database(self):
+        # Assurez-vous que le répertoire existe
+        directory = os.path.dirname(self.file_path)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        if os.path.exists(self.file_path):
+            print("La base de données existe déjà.")
+        else:
+            with open(self.file_path, 'w') as file:
+                json.dump(self.data, file)
+            print(f"Base de données créée avec succès à l'emplacement : {self.file_path}")
+
+# répertoires à créer
+players_directory = os.path.join(script_directory, "../../" + PLAYER_DIRECTORY)
+tournaments_directory = os.path.join(script_directory, "../../" + TOURNAMENTS_DIRECTORY)
+
+# créer les répertoires
 create_directory_if_not_exists(players_directory)
 create_directory_if_not_exists(tournaments_directory)
 
+# JSON :
+database_directory = PLAYER_DIRECTORY
+db = JSONDatabase(database_directory)
+db.create_database()
 
 
 #--Model

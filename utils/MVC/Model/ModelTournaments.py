@@ -19,14 +19,7 @@ class ModelTournaments:
         self.registered_players.append(player)
 
 
-    def _update_player_scores(self, match):
-        if match.result == "draw":
-            match.player1.set_score(match.player1.get_score() + 0.5)  # Le gagnant reçoit 1 point. ---○ Le perdant reçoit 0 point. ---○ Chaque joueur reçoit 0,5 point si le match se termine par un match nul.
-            match.player2.set_score(match.player2.get_score() + 0.5)  # Le gagnant reçoit 1 point. ---○ Le perdant reçoit 0 point. ---○ Chaque joueur reçoit 0,5 point si le match se termine par un match nul.
-        elif match.result == "win":
-            match.player1.set_score(match.player1.get_score() + 1)  # Le gagnant reçoit 1 point. ---○ Le perdant reçoit 0 point. ---○ Chaque joueur reçoit 0,5 point si le match se termine par un match nul.
-        elif match.result == "loss":
-            match.player2.set_score(match.player2.get_score() + 1)  # Le gagnant reçoit 1 point. ---○ Le perdant reçoit 0 point. ---○ Chaque joueur reçoit 0,5 point si le match se termine par un match nul.
+    
 
     def display_tournament_info(self):
         print("Tournament Information:")
