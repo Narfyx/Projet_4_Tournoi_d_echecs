@@ -23,7 +23,7 @@ class TerminalMenu:
         print("====== MENU ======")
         print("1. Add new player")
         print("2. Print all players")
-        print("3. Option 3")
+        print("3. Start tournaments")
         print("4. Quit")
         print("==================")
     
@@ -34,19 +34,8 @@ class TerminalMenu:
         last_name = input("Entrez le nom du joueur : ")
         birth_date = input("Entrez la date de naissance du joueur (format : JJ/MM/AAAA) : ")
         identification_code = input("Entrez le code d'identification : ")
-        print("=========================================")
-        """
-        first_name = "jean"
-        last_name = "dupont"
-        birth_date = "10/10/1000"
-        identification_code = "AN12345"
-        """
-        #  ces valeurs pour créer un nouvel objet joueur, par exemple
-        
-        
-        # les actions nécessaires avec le nouveau joueur, par exemple l'ajouter à la base de données
 
-        #print("Joueur ajouté avec succès !")
+        print("=========================================")
         input("Appuyez sur Entrée pour revenir au menu principal...")
         return first_name, last_name, birth_date, identification_code
 
@@ -55,6 +44,16 @@ class TerminalMenu:
         print(list_players)
         print("=================================")
         input("Appuyez sur Entrée pour revenir au menu principal...")
+
+    def start_tournaments(self):
+        print("============ TOURNOIS ============")
+        print("1. Create new tournaments")
+        print("2. Option 2")
+        print("3. Option 3")
+        print("4. Return to main menu")
+        print("==================================")
+        
+        
 
 # Exemple d'utilisation :
 def print_menu():
