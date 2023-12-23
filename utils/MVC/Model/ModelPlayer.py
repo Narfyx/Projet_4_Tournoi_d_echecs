@@ -137,3 +137,62 @@ class WriteForBddPlayer:
         with open(self.file_path, 'w') as file:
             json.dump(data, file, indent=2)
 
+
+
+class ReadBddPlayerIfDuplicate:
+    def __init__(self, file_path):
+        self.file_path = file_path
+
+    def is_bdd_not_empty(self):
+            try:
+                # Charger les données existantes depuis le fichier JSON
+                with open(self.file_path, 'r') as file:
+                    data = json.load(file)
+                # Vérifier si la liste de joueurs n'est pas vide
+                return bool(data.get('players', []))
+
+            except FileNotFoundError:
+                # Le fichier n'existe pas, donc la base de données est vide
+                return False
+
+    def check_duplicate(self, identification_code, first_name, last_name):
+        # Charger les données existantes depuis le fichier JSON
+        with open(self.file_path, 'r') as file:
+            data = json.load(file)
+
+        # Vérifier la présence d'un doublon pour identification_code
+        for player in data.get('players', []):
+            if player['identification_code'] == identification_code:
+                print(Fore.RED + "Doublon détecté : identification_code déjà utilisé." + Fore.RESET)
+                return True
+            if player['first_name'] == first_name and player['last_name'] == last_name:
+                print(Fore.RED + "Doublon détecté : first_name et last_name combinée déjà utilisé." + Fore.RESET)
+                return True
+
+        # Aucun doublon détecté
+        return False
+
+
+class ReadBddPlayer:
+    def __init__(self, file_path):
+        self.file_path = file_path
+        
+    
+    def is_bdd_not_empty(self):
+        with open(self.file_path, 'r') as file:
+            data = json.load(file)
+            try:
+                # Charger les données existantes depuis le fichier JSON
+                with open(self.file_path, 'r') as file:
+                    data = json.load(file)
+                # Vérifier si la liste de joueurs n'est pas vide
+                return bool(data.get('players', []))
+
+            except FileNotFoundError:
+                # Le fichier n'existe pas, donc la base de données est vide
+                return False
+    
+    def read_bdd_player(self):
+        with open(self.file_path, 'r') as file:
+            data = json.load(file)
+        return data
