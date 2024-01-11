@@ -1,55 +1,68 @@
+"""
+Un match unique doit être stocké sous la forme d'un tuple 
+contenant deux listes, chacune contenant deux éléments : 
+un joueur et un score. Les matchs doivent être stockés sous forme de 
+liste dans l'instance du tour auquel ils appartiennent. En plus de la 
+liste des matchs, chaque instance du tour doit contenir un nom. Actuellement, 
+nous appelons nos tours "Round 1", "Round 2", etc. Elle doit également 
+contenir un champ Date 
+et heure de début et un champ Date et heure de fin, qui doivent tous 
+deux être automatiquement remplis lorsque l'utilisateur crée un tour 
+et le marque comme terminé.
+"""
+
+
+
 import utils
+
 
 
 class Match:
     def __init__(self, player1, player2):
         self.player1 = player1
         self.player2 = player2
-        self.result = None  # À la fin du match, 
-        #les joueurs reçoivent des points selon leurs 
-        #résultats. ---○ Le gagnant reçoit 1 point. ---○ 
-        #Le perdant reçoit 0 point. ---○ Chaque joueur reçoit 
-        #0,5 point si le match se termine par un match nul.
+        self.match = None
+        self.score = 0  # Ajout d'un attribut score
 
-    def create_match(self, player1, player2): # Chaque 
-        #match consiste en une paire de joueurs.
-        match = Match(player1, player2)
-        self.rounds[self.current_round_number - 1].matches.append(match)
+
+    def init_match(self):
+        # Chaque match consiste en une paire de joueurs.
+        self.match = (
+            [list(self.player1), 0],
+            [list(self.player2), 0]
+        )
+
+    def update_player_scores(self, result_match):
+        self.result = result_match
+
+        if result_match == "draw":
+            print("EQUALITE")
+            for player_info in self.match:
+                player_info[1] += 0.5
+                
+
+        elif result_match == "win":
+            print("JOUEUR 1 GAGNE")
+            self.match[0][1] += 1
+            
+            
+        elif result_match == "loss":
+            print("JOUEUR 2 GAGNE")
+            self.match[1][1] += 1
+            
+        self.player1["score"] += self.match[0][1]
+        self.player2["score"] += self.match[1][1]
+        print(self.player1)
+        print(self.player2)
+        
+        
+        
+
+
     
-    def record_match_result(self, match_index, result):
-        match = self.rounds[self.current_round_number - 1].matches[match_index]
-        match.result = result
-        self._update_player_scores(match)  # Un tournoi 
-        #a un nombre de tours défini. ---○ Chaque tour 
-        #est une liste de matchs.
+    
+    
+    
+    
 
-
-
-    def _update_player_scores(self, match):
-        if match.result == "draw":
-            match.player1.set_score(match.player1.get_score() + 0.5)  
-            # Le gagnant reçoit 1 point. 
-            # ---○ Le perdant reçoit 0 point. 
-            # ---○ Chaque joueur reçoit 0,5 point si le 
-            # match se termine par un match nul.
-            match.player2.set_score(match.player2.get_score() + 0.5)  
-            # Le gagnant reçoit 1 point. ---○ Le perdant reçoit 0 point. 
-            # ---○ Chaque joueur reçoit 0,5 point si le match 
-            # se termine par un match nul.
-        elif match.result == "win":
-            match.player1.set_score(match.player1.get_score() + 1)  
-            # Le gagnant reçoit 1 point. ---○ Le perdant reçoit 0 point. 
-            # ---○ Chaque joueur reçoit 0,5 point si le 
-            # match se termine par un match nul.
-        elif match.result == "loss":
-            match.player2.set_score(match.player2.get_score() + 1)  
-            # Le gagnant reçoit 1 point. ---○ Le perdant reçoit 0 point. 
-            # ---○ Chaque joueur reçoit 0,5 point si le 
-            # match se termine par un match nul.
-    """
-    def set_score(self, score):
-        self._score = score
-    def get_score(self) -> int:
-        return self._score
-    self._score = 0  # Ajout d'un attribut score
-    """
+        

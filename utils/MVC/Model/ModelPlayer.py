@@ -9,7 +9,7 @@ class PlayerModel:
     def __init__(self, first_name="", last_name="", birth_date=None, identification_code=""):
         self._first_name = first_name
         self._last_name = last_name
-        self._birth_date = self._validate_birth_date(birth_date)
+        self._birth_date = birth_date
         self._identification_code = identification_code
         
 
@@ -28,7 +28,7 @@ class PlayerModel:
             return None
 
     def get_birth_date(self) -> str:
-        return self._birth_date
+        return self.formatted_date(self._birth_date)
 
     def get_identification_code(self) -> str:
         return self._identification_code
@@ -99,16 +99,46 @@ class PlayerModel:
         day = birth_date.day
         month = birth_date.month
         year = birth_date.year
-
+        
+        date_limite = datetime.date(1907, 3, 4)
+        if birth_date < date_limite: #easter egg
+            print(Fore.RED + "La date est antérieure au 4 mars 1907. Vous ne pouvez pas inscrire un joueur plus vieux que Maria Branyas Morera :)" + Fore.RESET)
+            script_directory = os.path.dirname(os.path.abspath(__file__))
+            ascii_art_file_path = os.path.join(script_directory, 'egg')
+            if os.path.exists(ascii_art_file_path):
+                with open(ascii_art_file_path, 'r', encoding='utf-8') as file:
+                    ascii_art_content = file.read()
+                    print(Fore.GREEN + ascii_art_content + Fore.RESET)
+                    
+            time.sleep(5)
+            return None
         return (day, month, year)
 
 
     # Formatted func
-    def formatted_birth_date(self):
-        if self._birth_date is None:
+    def formatted_date(self, date):
+        if date is None:
             return None
         else:
-            return f"{self._birth_date[0]}, {self._birth_date[1]:02d}, {self._birth_date[2]}"
+            return f"{date[0]}, {date[1]:02d}, {date[2]}"
+    @classmethod
+    def create_from_dict(cls, player_data):
+        # Méthode de classe pour créer une instance de PlayerModel à partir d'un dictionnaire
+        return cls(
+                        first_name=player_data.get('first_name'),
+                        last_name=player_data.get('last_name'),
+                        birth_date=player_data.get('birth_date'),
+                        identification_code=player_data.get('identification_code')
+                    )
+
+    def get_player_info(self):
+        return {
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'birth_date': self.birth_date,
+            'identification_code': self.identification_code,
+            'index': self.index
+        }
 
 
 
@@ -130,7 +160,7 @@ class WriteForBddPlayer:
             'identification_code': identification_code
         }
 
-        # Ajouter le nouvel enregistrement à la liste des joueurs
+        # Ajoute le nouvel enregistrement à la liste des joueurs
         data['players'] = data.get('players', []) + [player_record]
 
         # Écrire les données mises à jour dans le fichier JSON
@@ -145,10 +175,10 @@ class ReadBddPlayerIfDuplicate:
 
     def is_bdd_not_empty(self):
             try:
-                # Charger les données existantes depuis le fichier JSON
+                # Charge les données existantes depuis le fichier JSON
                 with open(self.file_path, 'r') as file:
                     data = json.load(file)
-                # Vérifier si la liste de joueurs n'est pas vide
+                # Vérifie si la liste de joueurs n'est pas vide
                 return bool(data.get('players', []))
 
             except FileNotFoundError:
@@ -156,11 +186,11 @@ class ReadBddPlayerIfDuplicate:
                 return False
 
     def check_duplicate(self, identification_code, first_name, last_name):
-        # Charger les données existantes depuis le fichier JSON
+        # Charge les données existantes depuis le fichier JSON
         with open(self.file_path, 'r') as file:
             data = json.load(file)
 
-        # Vérifier la présence d'un doublon pour identification_code
+        # Vérifie la présence d'un doublon pour identification_code
         for player in data.get('players', []):
             if player['identification_code'] == identification_code:
                 print(Fore.RED + "Doublon détecté : identification_code déjà utilisé." + Fore.RESET)
@@ -185,7 +215,7 @@ class ReadBddPlayer:
                 # Charger les données existantes depuis le fichier JSON
                 with open(self.file_path, 'r') as file:
                     data = json.load(file)
-                # Vérifier si la liste de joueurs n'est pas vide
+                # Vérifie si la liste de joueurs n'est pas vide
                 return bool(data.get('players', []))
 
             except FileNotFoundError:
@@ -196,3 +226,39 @@ class ReadBddPlayer:
         with open(self.file_path, 'r') as file:
             data = json.load(file)
         return data
+
+    def extract_player_in_bdd(self):
+        bdd_player = self.read_bdd_player()
+        obj_players = []
+        for index, player_data in enumerate(bdd_player.get('players', [])):
+            player_instance = PlayerModel().create_from_dict(player_data)
+            obj_players.append({'index': index, 'player': player_instance})
+
+        # Exemple d'utilisation : parcourir tous les joueurs
+        for entry in obj_players:
+            current_index = entry['index']
+            current_player = entry['player']
+            #print(f"Joueur {current_index}:", current_player.get_first_name(), current_player.get_last_name())
+
+        return obj_players
+
+
+def get_player_attributes_by_index(obj_players, index_to_consult):
+    # Recherchez le joueur avec l'index spécifié
+    player_dict = next((player_dict for player_dict in obj_players if player_dict['index'] == index_to_consult), None)
+
+    # Vérifiez si le joueur a été trouvé
+    if player_dict:
+        # Retournez les attributs du joueur
+        return {
+            'first_name': player_dict['player']._first_name,
+            'last_name': player_dict['player']._last_name,
+            'birth_date': player_dict['player']._birth_date,
+            'identification_code': player_dict['player']._identification_code,
+            'index': player_dict['index']
+        }
+    else:
+        # Si aucun joueur n'est trouvé, retournez None ou une valeur par défaut
+        return None
+
+

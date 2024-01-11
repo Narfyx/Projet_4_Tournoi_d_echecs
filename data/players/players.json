@@ -47,6 +47,30 @@
       "last_name": "MILLER",
       "birth_date": "15, 03, 1995",
       "identification_code": "EM12345"
+    },
+    {
+      "first_name": "Michel",
+      "last_name": "TOURANT",
+      "birth_date": "20, 05, 1999",
+      "identification_code": "AH12345"
+    },
+    {
+      "first_name": "Pierre",
+      "last_name": "PAUL",
+      "birth_date": "4, 09, 2015",
+      "identification_code": "ZE12345"
+    },
+    {
+      "first_name": "Philippe",
+      "last_name": "HUBERT",
+      "birth_date": "1, 06, 1970",
+      "identification_code": "ER12345"
+    },
+    {
+      "first_name": "Toto",
+      "last_name": "TATA",
+      "birth_date": "1, 06, 1970",
+      "identification_code": "EF12345"
     }
   ]
 }
