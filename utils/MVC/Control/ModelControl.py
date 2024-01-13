@@ -76,6 +76,7 @@ class TournamentsMenuChoice:
                 date_start = tournaments.get_date_start()
                 date_end = tournaments.get_date_end()
                 num_rounds = tournaments.get_num_rounds()
+                is_finish = tournaments.get_tournament_is_finish()
 
             except ValueError as e:
                 print(e)
@@ -93,7 +94,8 @@ class TournamentsMenuChoice:
                                         location,
                                         date_start,
                                         date_end,
-                                        num_rounds)    
+                                        num_rounds,
+                                        is_finish)    
 
         elif choice == "2":
             print("You chose Option 2. Select tournament.") 
@@ -105,6 +107,7 @@ class TournamentsMenuChoice:
 
 
             if 'Tournaments' in df.columns and isinstance(df['Tournaments'][0], dict):
+
                 list_tournaments = pd.DataFrame(df['Tournaments'].tolist())
                 list_tournaments = list_tournaments[['name', 'location', 'date_start', 'date_end', 'num_rounds']]
                 
@@ -119,6 +122,11 @@ class TournamentsMenuChoice:
                             continue
                              
                         if len(data['Tournaments'][int(select_tournament)]):
+                            if data['Tournaments'][int(select_tournament)]['finish'] == True:
+                                print(Fore.RED + "Sélection invalide. Ce tournois est marqué comme terminé." + Fore.RESET)
+                                self.is_running = False
+                                continue
+                                
                             break
 
                     except:
@@ -145,50 +153,44 @@ class TournamentsMenuChoice:
 
                         
                     
-                    pair_de_joueurs = utils.MVC.Model.ModelTournaments.RandomizePlayerListAndCreatePair(players_list).generate_random_pairs()#côté Model créer la fonction qui rondomize les joueurs et créer des paires
-                    
                     nombre_de_round = data['Tournaments'][int(select_tournament)]['num_rounds']
+
+
+                    randomizer = utils.MVC.Model.ModelTournaments.RandomizePlayerListAndCreatePair(players_list)
+                    pair_de_joueurs = randomizer.generate_random_pairs()
+
+
+
+                    #
+
+                    #
+                    #
+                    affrontement.start_affrontement(self,pair_de_joueurs=pair_de_joueurs,nombre_de_round=nombre_de_round)
                     
-                    data_pairing_players = []
-                    for pair in pair_de_joueurs:
-                        
-                        init_round = utils.MVC.Model.ModelRound.ModelRound(self)
-                        init_match = utils.MVC.Model.ModelMatch.Match(player1=pair[0], player2=pair[1])
-                        # Créer un DataFrame à partir du tuple
-                        df = pd.DataFrame(list(pair))
-                        joueur1 = pd.DataFrame({"Joueur 1": (pair[0]["first_name"], pair[0]["last_name"], pair[0]["identification_code"])})
-                        vs_df = pd.DataFrame({"VS": ["VS"]}, index=[])
-                        joueur2 = pd.DataFrame({"Joueur 2": (pair[1]["first_name"], pair[1]["last_name"], pair[1]["identification_code"])})
-                        result_df = pd.concat([joueur1, vs_df, joueur2], axis=1).fillna("")
-                        data_pairing_players.append([init_round, init_match, result_df])
-                        
-                        # Afficher le DataFrame final
-                        utils.MVC.View.ModelView.TerminalMenu.print_pair_players(self, pair_list=result_df, round=init_round.nom.upper())
-                    utils.MVC.View.ModelView.TerminalMenu.standby_start_round(self)
-
-
+                    pprint(pair_de_joueurs)
+                    
+                    
+                    
+                    #utils.MVC.View.ModelView.TerminalMenu.clear_terminal(self)  
                     while True:
-                        for data_pairing in data_pairing_players:
-                            data_pairing[0].marquer_commence()
-                            data_pairing[1].init_match()
-                            while True:
-                                winner_match = utils.MVC.View.ModelView.TerminalMenu.set_result_match(self, data_pairing[2], round=data_pairing[0].nom.upper())
-                                if winner_match == "1":#player1 win
-                                    data_pairing[1].update_player_scores(result_match="win")
-                                    break
 
-                                elif winner_match == "2":#player2 win
-                                    data_pairing[1].update_player_scores(result_match="loss")
-                                    break
-                                elif winner_match == "3":#equal
-                                    data_pairing[1].update_player_scores(result_match="draw")
-                                    break
-                            data_pairing[0].marquer_termine()
-                            print(data_pairing[0].tour_actuel)
-                            print(data_pairing[0].nombre_total_tours)
-                    #utils.MVC.Model.ModelRound.marquer_commence(self)
+                        pair_de_joueurs = randomizer.generate_pairs_by_score()
+                        pprint(pair_de_joueurs)
+                        if pair_de_joueurs == None:
+                            break
+                        affrontement.start_affrontement(self,pair_de_joueurs=pair_de_joueurs,nombre_de_round=nombre_de_round)
+                    pprint(pair_de_joueurs)
+                    print("PLUS DE NOUVELLE PAIR TOURNOIS TERMINE")
+                    utils.MVC.Model.ModelTournaments.ModelCreateTournaments.set_is_finish(self,json_file_path_tournaments, int(select_tournament))
+                    #data['Tournaments'][int(select_tournament)]['finish']     
                     exit()
-                    exit()
+                    tri_by_score = utils.MVC.Model.ModelTournaments.trier_par_score(players_list)
+                    pprint(tri_by_score)
+                    
+                   
+                    
+                    
+
                     
 
                     
@@ -257,6 +259,70 @@ def list_players():
         return players_df
     else:
         print("Le format du fichier JSON n'est pas conforme aux attentes.")
+
+class affrontement:
+    def __init__(self):
+        pass
+    def start_affrontement(self,pair_de_joueurs,nombre_de_round):
+        data_pairing_players = []
+        
+        for pair in pair_de_joueurs:
+            if pair[1] == None:
+                break
+            player1=pair[0]
+            player2=pair[1]
+            init_round = utils.MVC.Model.ModelRound.ModelRound()
+            init_match = utils.MVC.Model.ModelMatch.Match(player1=player1, player2=pair[1])
+            # Créer un DataFrame à partir du tuple
+            
+            df = pd.DataFrame(list(pair))
+            
+            joueur1 = pd.DataFrame({"Joueur 1": (player1["first_name"], player1["last_name"], player1["identification_code"])})
+            vs_df = pd.DataFrame({"VS": ["VS"]}, index=[])
+            joueur2 = pd.DataFrame({"Joueur 2": (player2["first_name"], player2["last_name"], player2["identification_code"])})
+            result_df = pd.concat([joueur1, vs_df, joueur2], axis=1).fillna("")
+            data_pairing_players.append([init_round, init_match, result_df])
+                  
+
+        
+                     
+        compteur = 1
+        while compteur < (nombre_de_round + 1):
+            #utils.MVC.View.ModelView.TerminalMenu.clear_terminal(self)
+            for data_pairing in data_pairing_players:
+                utils.MVC.View.ModelView.TerminalMenu.print_pair_players(self, data_pairing[2], round=f"ROUND {compteur}")
+                 
+
+            utils.MVC.View.ModelView.TerminalMenu.standby_start_round(self)
+            #utils.MVC.View.ModelView.TerminalMenu.clear_terminal(self)
+            for data_pairing in data_pairing_players:
+                data_pairing[0].marquer_commence()
+                                
+                data_pairing[1].init_match()
+                while True:
+                                    
+                    winner_match = utils.MVC.View.ModelView.TerminalMenu.set_result_match(self, data_pairing[2], round=data_pairing[0].nom.upper())
+                    if winner_match == "1":#player1 win
+                        data_pairing[1].update_player_scores(result_match="win")
+                        data_pairing[0].marquer_termine()
+                        break
+
+                    elif winner_match == "2":#player2 win
+                        data_pairing[1].update_player_scores(result_match="loss")
+                        data_pairing[0].marquer_termine()
+                        break
+                    elif winner_match == "3":#equal
+                        data_pairing[1].update_player_scores(result_match="draw")
+                        data_pairing[0].marquer_termine()
+                        break
+            compteur += 1   
+        
+
+        
+        return  pair_de_joueurs  
+    
+
+
 
 def run():
     menu = TerminalMenuChoice()

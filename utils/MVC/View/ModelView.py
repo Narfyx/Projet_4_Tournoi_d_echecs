@@ -109,6 +109,14 @@ class TerminalMenu:
         print(f"================== FIN DU {round} ===================")
         print(pair_list)
         return input("Who is the winner ? (1=player1, 2=player2, 3=equal)")
+    
+    def clear_terminal(self):
+        command = 'cls' if os.name == 'nt' else 'clear'
+        
+        try:
+            subprocess.call(command, shell=True)
+        except Exception as e:
+            print(f"Erreur lors de l'effacement du terminal : {e}")
 # Exemple d'utilisation :
 def print_menu():
     menu = TerminalMenu()

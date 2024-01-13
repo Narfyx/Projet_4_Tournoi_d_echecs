@@ -1,10 +1,33 @@
 import sys
 sys.path.append("../../../utils")  # Ajoute le chemin du module parent au chemin de recherche de modules
 import utils
-import datetime, re, time, json, os, random
+import datetime, re, time, json, os, random, itertools
 from colorama import Fore
+from pprint import pprint
 
 
+class SetTournamentToFinishInBdd:
+    def __init__(self):
+        pass
+        
+    def change_to_finish(self, file_path, index):
+        #if self.tournament_selected['finish'] == False:
+        print(file_path)
+        print(index) 
+
+        # Étape 1 : Ouvrir le fichier en mode lecture
+        with open(file_path, 'r') as fichier:
+            # Étape 2 : Charger le contenu JSON dans une structure de données Python
+            donnees = json.load(fichier)
+            
+            # Étape 3 : Modifier la structure de données
+            donnees['Tournaments'][index]['finish'] = True
+
+        # Étape 4 : Ouvrir le fichier en mode écriture et écrire les modifications
+        with open(file_path, 'w') as fichier:
+            json.dump(donnees, fichier, indent=2)
+
+    
 
 class ModelCreateTournaments:
     def __init__(self, name="", location="", date_start=None, date_end=None, num_rounds=4):
@@ -14,6 +37,7 @@ class ModelCreateTournaments:
         self._date_start = date_start
         self._date_end = date_end
         self._num_rounds = num_rounds
+        self._finish_tournament = False
 
     #Getter methods
 
@@ -33,6 +57,8 @@ class ModelCreateTournaments:
         return self.formatted_date(self._date_end)
     def get_num_rounds(self) -> int:
         return self._num_rounds
+    def get_tournament_is_finish(self) -> bool:
+        return self._finish_tournament
 
     
     # Setter methods
@@ -51,6 +77,13 @@ class ModelCreateTournaments:
 
     def set_num_rounds(self, num_rounds):
         self._num_rounds = self._validate_num_rounds(num_rounds)
+    
+    def set_is_finish(self, json_file_path_tournaments, index):
+        self._finish_tournament = True
+        i = SetTournamentToFinishInBdd.change_to_finish(self,file_path=json_file_path_tournaments,index=index)
+        
+
+
 
 
 
@@ -108,7 +141,7 @@ class WriteForBddTournaments:
     def __init__(self, file_path):
         self.file_path = file_path
 
-    def write_tournament(self, name, location, date_start, date_end, num_rounds):
+    def write_tournament(self, name, location, date_start, date_end, num_rounds, is_finish):
         # Charger les données existantes depuis le fichier JSON
         with open(self.file_path, 'r') as file:
             data = json.load(file)
@@ -119,7 +152,8 @@ class WriteForBddTournaments:
             'location': location,
             'date_start': date_start,
             'date_end': date_end,
-            'num_rounds': num_rounds
+            'num_rounds': num_rounds,
+            'finish': is_finish
         }
 
         # Ajouter le nouvel enregistrement à la liste des tournois
@@ -189,36 +223,108 @@ class ReadBddTournaments:
             data = json.load(file)
         return data
 
+class MemorizePair:
+    def __init__(self):
+        self.actual_pair = None
+        self.old_pairs = []
+        
+
+    def set_actual_pair(self, new_pairs):
+        self.actual_pair = new_pairs
+        print(100*'/')
+        pprint(f"OLD_PAIR = {self.old_pairs}")
+        print(100*'/')
+        print(100*'/')
+        pprint(f"ACTUAL_PAIR = {self.actual_pair}")
+        print(100*'/')
+        if self.actual_pair in self.old_pairs:
+            return False
+        else:
+            self.old_pairs.append(self.actual_pair)
+            return True
+        
+
 
 
 class RandomizePlayerListAndCreatePair:
     def __init__(self, players_list=None):
         self.players_list = players_list
         random.shuffle(self.players_list)
+        self.pair_memorizer = MemorizePair()
 
     def generate_random_pairs(self):
-        
-        if self.players_list == None:
+        if self.players_list is None:
             return None
 
-        
-        # Assurez-vous que la liste de joueurs a une longueur paire
-        if len(self.players_list) % 2 != 0:
-            raise ValueError("Le nombre de joueurs doit être pair.")#GERER LE CAS D UN NOMBRE IMPAIRE DE JOUEUR QUI VA EXCLURE UN JOUEUR DU TOURNOIS
+        # Génération des paires
+        pairs = self._generate_pairs()
 
-        pair = []
         
+
+        return pairs
+    
+    def generate_pairs_by_score(self):
+        if self.players_list is None:
+            return None
+
+        # Trie des joueurs par score décroissant
+        sorted_players = sorted(self.players_list, key=lambda x: x['score'], reverse=True)
+        self.players_list = sorted_players
+        # Génération des paires avec la liste triée
+        pairs = self._generate_pairs()
+        if pairs == None:
+            return None
+        
+
+        return pairs
+
+    def _generate_pairs(self):
+        
+        
+        pairs = []
         iterator = iter(self.players_list)
-
-        while True:#Obliger pour cette méthode car un for i in range(0, len(self.players_list), 2) créer une erreur NoneType du au random.shuffle(self.players_list)
+        while True:
             try:
-                player_impair = next(iterator)
                 player_pair = next(iterator)
-                pair.append((player_impair, player_pair))
+                player_impair = next(iterator, None)
+                
+                new_pair = (player_pair, player_impair)
+                
+                pairs.append(new_pair)
+                check_if_created = self.pair_memorizer.set_actual_pair(new_pair)
+                print(100*'*')
+                print(check_if_created)
+                print(100*'*')
+                if check_if_created == False:
+                    # Réessayer avec une nouvelle paire
+                    random.shuffle(self.players_list)
+                    iterator = iter(self.players_list)
+                    check_if_created = self.pair_memorizer.set_actual_pair(new_pair)
+                    if check_if_created == False:
+                        pairs = None
+                        break
+                """
+                else:
+                    # Réessayer avec une nouvelle paire
+                    random.shuffle(self.players_list)
+                    iterator = iter(self.players_list)
+                    check_if_created = self.pair_memorizer.set_actual_pair(new_pair)
+                """   
             except StopIteration:
-                # Arrête la boucle s'il n'y a plus d'éléments dans la liste
                 break
-        return pair
+
+        
+
+
+        return pairs
+
+    def _pairs_are_duplicate(self, new_pairs):
+        # Vérifie si les nouvelles paires sont en double par rapport aux anciennes
+        if hasattr(self, 'previous_pairs') and new_pairs == self.previous_pairs:
+            return True
+        self.previous_pairs = new_pairs
+        return False
+
 
 
 class StartMatch:#RENOMMER STARTMATCH EN ADDSCORE
@@ -231,5 +337,6 @@ class StartMatch:#RENOMMER STARTMATCH EN ADDSCORE
         
         return self.player
             
-
+def trier_par_score(liste):
+    return sorted(liste, key=lambda x: x['score'], reverse=True)
     

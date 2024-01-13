@@ -36,24 +36,23 @@ class Match:
         self.result = result_match
 
         if result_match == "draw":
-            print("EQUALITE")
+            #print("EQUALITE")
             for player_info in self.match:
                 player_info[1] += 0.5
                 
 
         elif result_match == "win":
-            print("JOUEUR 1 GAGNE")
+            #print("JOUEUR 1 GAGNE")
             self.match[0][1] += 1
             
             
         elif result_match == "loss":
-            print("JOUEUR 2 GAGNE")
+            #print("JOUEUR 2 GAGNE")
             self.match[1][1] += 1
             
         self.player1["score"] += self.match[0][1]
         self.player2["score"] += self.match[1][1]
-        print(self.player1)
-        print(self.player2)
+        
         
         
         

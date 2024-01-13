@@ -14,21 +14,23 @@ et le marque comme terminé.
 import utils, datetime
 
 class ModelRound:
-    def __init__(self, nombre_total_tours):
+    def __init__(self):
         self.matches = []
         self.debut = None
         self.fin = None
         self.tour_actuel = 1
-        self.nombre_total_tours = nombre_total_tours
         self.nom = f"Round {self.tour_actuel}"
+        
 
     def marquer_commence(self):
         self.debut = datetime.datetime.now
+        self.nom = f"Round {self.tour_actuel}"
         
 
     def marquer_termine(self):
         self.fin = datetime.datetime.now
         self.tour_actuel += 1
+        
 
-    def dernier_tour(self):
-        return self.tour_actuel > self.nombre_total_tours
+
+   

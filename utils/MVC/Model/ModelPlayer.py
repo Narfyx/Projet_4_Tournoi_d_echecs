@@ -103,12 +103,6 @@ class PlayerModel:
         date_limite = datetime.date(1907, 3, 4)
         if birth_date < date_limite: #easter egg
             print(Fore.RED + "La date est antérieure au 4 mars 1907. Vous ne pouvez pas inscrire un joueur plus vieux que Maria Branyas Morera :)" + Fore.RESET)
-            script_directory = os.path.dirname(os.path.abspath(__file__))
-            ascii_art_file_path = os.path.join(script_directory, 'egg')
-            if os.path.exists(ascii_art_file_path):
-                with open(ascii_art_file_path, 'r', encoding='utf-8') as file:
-                    ascii_art_content = file.read()
-                    print(Fore.GREEN + ascii_art_content + Fore.RESET)
                     
             time.sleep(5)
             return None
