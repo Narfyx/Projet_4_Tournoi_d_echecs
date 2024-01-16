@@ -102,7 +102,7 @@ class PlayerModel:
         
         date_limite = datetime.date(1907, 3, 4)
         if birth_date < date_limite: #easter egg
-            print(Fore.RED + "La date est antérieure au 4 mars 1907. Vous ne pouvez pas inscrire un joueur plus vieux que Maria Branyas Morera :)" + Fore.RESET)
+            print(Fore.RED + "The date is earlier than 4 March 1907. You cannot enter a player older than Maria Branyas Morera :)" + Fore.RESET)
                     
             time.sleep(5)
             return None
@@ -187,10 +187,10 @@ class ReadBddPlayerIfDuplicate:
         # Vérifie la présence d'un doublon pour identification_code
         for player in data.get('players', []):
             if player['identification_code'] == identification_code:
-                print(Fore.RED + "Doublon détecté : identification_code déjà utilisé." + Fore.RESET)
+                print(Fore.RED + "Duplicate detected: identification_code already used." + Fore.RESET)
                 return True
             if player['first_name'] == first_name and player['last_name'] == last_name:
-                print(Fore.RED + "Doublon détecté : first_name et last_name combinée déjà utilisé." + Fore.RESET)
+                print(Fore.RED + "Duplicate detected: first_name and last_name combined already in use." + Fore.RESET)
                 return True
 
         # Aucun doublon détecté

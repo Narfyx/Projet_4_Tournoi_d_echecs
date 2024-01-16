@@ -118,19 +118,19 @@ class TournamentsMenuChoice:
                     
                     try:
                         if int(select_tournament) >= len(data['Tournaments']) or select_tournament.isdigit() == False:
-                            print(Fore.RED + "Sélection invalide. Veuillez choisir un numéro de tournoi valide." + Fore.RESET)
+                            print(Fore.RED + "Invalid selection. Please choose a valid tournament number." + Fore.RESET)
                             continue
                              
                         if len(data['Tournaments'][int(select_tournament)]):
                             if data['Tournaments'][int(select_tournament)]['finish'] == True:
-                                print(Fore.RED + "Sélection invalide. Ce tournois est marqué comme terminé." + Fore.RESET)
-                                self.is_running = False
+                                print(Fore.RED + "Invalid selection. This tournament is marked as finished." + Fore.RESET)
+                                handle_choice(self, choice)
                                 continue
                                 
                             break
 
                     except:
-                        print(Fore.RED + "Sélection invalide. Veuillez choisir un numéro de tournoi valide." + Fore.RESET)
+                        print(Fore.RED + "Invalid selection. Please choose a valid tournament number." + Fore.RESET)
                         continue
 
 
@@ -180,7 +180,7 @@ class TournamentsMenuChoice:
                             break
                         affrontement.start_affrontement(self,pair_de_joueurs=pair_de_joueurs,nombre_de_round=nombre_de_round)
                     pprint(pair_de_joueurs)
-                    print("PLUS DE NOUVELLE PAIR TOURNOIS TERMINE")
+                    print("MORE NEWS PAIR TOURNAMENT ENDS")
                     utils.MVC.Model.ModelTournaments.ModelCreateTournaments.set_is_finish(self,json_file_path_tournaments, int(select_tournament))
                     #data['Tournaments'][int(select_tournament)]['finish']     
                     exit()
@@ -200,7 +200,7 @@ class TournamentsMenuChoice:
                     print("Invalid choice. Please enter a number between 1 and 4.")
 
             else:
-                print("Le format du fichier JSON n'est pas conforme aux attentes.")
+                print("The JSON file format does not meet expectations.")
         elif choice == "3":
             self.is_running = False
         else:
@@ -258,7 +258,7 @@ def list_players():
         players_df = players_df[['first_name', 'last_name', 'birth_date', 'identification_code']]
         return players_df
     else:
-        print("Le format du fichier JSON n'est pas conforme aux attentes.")
+        print("The JSON file format does not meet expectations.")
 
 class affrontement:
     def __init__(self):

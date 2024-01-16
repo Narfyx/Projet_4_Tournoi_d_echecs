@@ -28,12 +28,12 @@ class TerminalMenu:
         print("==================")
     
     def show_add_new_player_menu(self):
-        print("======= AJOUTER UN NOUVEAU JOUEUR =======")
+        print("======= ADD NEW PLAYER =======")
         
-        first_name = input("Entrez le prénom du joueur : ")
-        last_name = input("Entrez le nom du joueur : ")
-        birth_date = input("Entrez la date de naissance du joueur (format : JJ/MM/AAAA) : ")
-        identification_code = input("Entrez le code d'identification : ")
+        first_name = input("Enter the player's first name : ")
+        last_name = input("Enter the player's last name : ")
+        birth_date = input("Enter the player's birth date (format: DD/MM/YYYY) : ")
+        identification_code = input("Enter the identification code : ")
         """
         first_name="jean"
         last_name="dupont"
@@ -41,17 +41,17 @@ class TerminalMenu:
         identification_code="ab12345"
         """
         print("=========================================")
-        input("Appuyez sur Entrée pour revenir au menu principal...")
+        input("Press Enter to return to the main menu...")
         return first_name, last_name, birth_date, identification_code
 
     def print_all_player(self, list_players):
-        print("======= LISTE DES JOUEURS =======")
+        print("======= LIST OF PLAYERS =======")
         print(list_players)
         print("=================================")
-        input("Appuyez sur Entrée pour revenir au menu principal...")
+        input("Press Enter to return to the main menu...")
 
     def tournaments_menu(self):
-        print("============ TOURNOIS ============")
+        print("============ TOURNAMENTS ============")
         print("1. Create new tournament")
         print("2. Select tournament")
         print("3. Option 3")
@@ -59,13 +59,13 @@ class TerminalMenu:
         print("==================================")
         
     def tournaments_create(self):
-        print("======= CREER NOUVEAU TOURNOIS =======") # part 1 création du tournois
+        print("======= CREATE NEW TOURNAMENTS =======") # part 1 création du tournois
         
-        name = input("Entrez le nom du tournois : ")
-        location = input("Entrez le lieu du tournois : ")
-        date_start = input("Entrez la date de commencement du tournois : ")
-        date_end = input("Entrez la date de fin du tournois : ")
-        num_rounds = input("Entrez le nombre de tours (défaut = 4) : ")
+        name = input("Enter the name of the tournament : ")
+        location = input("Enter the location of the tournament : ")
+        date_start = input("Enter the start date of the tournament : ")
+        date_end = input("Enter the end date of the tournament : ")
+        num_rounds = input("Enter the number of revolutions (default = 4) : ")
         """
         name="tata"
         location="tutu"
@@ -74,7 +74,7 @@ class TerminalMenu:
         num_rounds="4"
         """
         print("=========================================")
-        input("Appuyez sur Entrée pour revenir au menu principal...")
+        input("Press Enter to return to the main menu...")
         return name, location, date_start, date_end, num_rounds
     
     def select_tournament(self, list_tournaments):
@@ -85,13 +85,13 @@ class TerminalMenu:
         return select_tournament
 
     def launch_tournament(self, list_players, dftournament):
-        print("================ TOURNOIS SELECTIONNE =================")
+        print("================ SELECTED TOURNAMENTS =================")
         print(dftournament)
-        print("======= LISTE DES JOUEURS DANS LA BASE DE DONNEE=======")
+        print("======= LIST OF PLAYERS IN THE DATABASE =======")
         print(list_players)
         print("=======================================================")
-        print("1. Ajouter nouveau joueur")
-        print("2. Lancement des matchs")
+        print("1. Add new player")
+        print("2. Launch matchs")
         print("3. Return to main menu")
         print("=======================================================")
         choice = input("Select option : ")
@@ -103,10 +103,10 @@ class TerminalMenu:
         
     def standby_start_round(self):
         print("======================================================")
-        input("Appuyez sur une touche pour lancer le round...")
+        input("Press a button to start the round...")
     
     def set_result_match(self, pair_list, round):
-        print(f"================== FIN DU {round} ===================")
+        print(f"================== END OF {round} ===================")
         print(pair_list)
         return input("Who is the winner ? (1=player1, 2=player2, 3=equal)")
     
@@ -116,7 +116,7 @@ class TerminalMenu:
         try:
             subprocess.call(command, shell=True)
         except Exception as e:
-            print(f"Erreur lors de l'effacement du terminal : {e}")
+            print(f"Terminal clear error : {e}")
 # Exemple d'utilisation :
 def print_menu():
     menu = TerminalMenu()

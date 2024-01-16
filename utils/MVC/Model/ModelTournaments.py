@@ -191,7 +191,7 @@ class ReadBddTournamentIfDuplicate:
             if (Tournaments['name'] == name and 
                 Tournaments['location'] == location and
                 Tournaments['date_start'] == date_start):
-                print(Fore.RED + "Doublon détecté : Ce tournois est déjà utilisé." + Fore.RESET)
+                print(Fore.RED + "Duplicate detected: This tournament is already in use." + Fore.RESET)
                 return True
 
 
