@@ -11,7 +11,7 @@ lorsque l'utilisateur crée un tour
 et le marque comme terminé.
 """
 
-import utils, datetime
+import datetime
 
 class ModelRound:
     def __init__(self):
@@ -20,17 +20,13 @@ class ModelRound:
         self.fin = None
         self.tour_actuel = 1
         self.nom = f"Round {self.tour_actuel}"
-        
+
 
     def marquer_commence(self):
         self.debut = datetime.datetime.now
         self.nom = f"Round {self.tour_actuel}"
-        
+
 
     def marquer_termine(self):
         self.fin = datetime.datetime.now
         self.tour_actuel += 1
-        
-
-
-   
