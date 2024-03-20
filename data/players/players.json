@@ -1,34 +1,38 @@
-{
-  "players": [
+[
     {
-      "first_name": "Jean",
-      "last_name": "DUPONT",
-      "birth_date": "9, 05, 1984",
-      "identification_code": "AB12345"
+        "first_name": "Toto",
+        "last_name": "TATA",
+        "birth_date": "10/10/2000",
+        "identification_code": "AB12345"
     },
     {
-      "first_name": "Michel",
-      "last_name": "GRENIER",
-      "birth_date": "8, 04, 1956",
-      "identification_code": "EX26824"
+        "first_name": "Titi",
+        "last_name": "TUTU",
+        "birth_date": "10/10/2000",
+        "identification_code": "AC12345"
     },
     {
-      "first_name": "Toto",
-      "last_name": "TITI",
-      "birth_date": "9, 05, 2000",
-      "identification_code": "KE09052"
+        "first_name": "Tutu",
+        "last_name": "TYTY",
+        "birth_date": "10/10/2000",
+        "identification_code": "AG12345"
     },
     {
-      "first_name": "Robert",
-      "last_name": "DUCHAMPS",
-      "birth_date": "6, 03, 1958",
-      "identification_code": "UI98765"
+        "first_name": "Zozo",
+        "last_name": "ZAZA",
+        "birth_date": "10/10/2000",
+        "identification_code": "AK12345"
     },
     {
-      "first_name": "Lili",
-      "last_name": "LALA",
-      "birth_date": "10, 08, 2010",
-      "identification_code": "AG12345"
+        "first_name": "Test",
+        "last_name": "TEST",
+        "birth_date": "10/10/2000",
+        "identification_code": "AH12345"
+    },
+    {
+        "first_name": "Test-a",
+        "last_name": "TEST-A",
+        "birth_date": "10/10/2000",
+        "identification_code": "AM12345"
     }
-  ]
-}
+]

@@ -1,12 +1,50 @@
-{
-  "Tournaments": [
+[
     {
-      "name": "Londre",
-      "location": "Londre",
-      "date_start": "13, 01, 2024",
-      "date_end": "14, 01, 2024",
-      "num_rounds": 2,
-      "finish": true
+        "name": "TOURNEMENT-PARIS",
+        "location": "Paris",
+        "date_start": "10/10/2000",
+        "date_end": "11/10/2000",
+        "players_id": [
+            "AB12345",
+            "AC12345"
+        ],
+        "description": "ceci est une description",
+        "num_rounds": "4"
+    },
+    {
+        "name": "TEST",
+        "location": "Paris",
+        "date_start": "10/10/2000",
+        "date_end": "10/10/2000",
+        "players_id": [
+            "AB12345",
+            "AC12345"
+        ],
+        "description": "rien",
+        "num_rounds": "4"
+    },
+    {
+        "name": "TOTO",
+        "location": "Toto",
+        "date_start": "10/10/2000",
+        "date_end": "10/10/2000",
+        "players_id": [
+            "AB12345",
+            "AC12345"
+        ],
+        "description": "t",
+        "num_rounds": "4"
+    },
+    {
+        "name": "TEST-B",
+        "location": "Test-b",
+        "date_start": "10/10/2000",
+        "date_end": "10/10/2000",
+        "players_id": [
+            "AB12345",
+            "AC12345"
+        ],
+        "description": "t",
+        "num_rounds": "4"
     }
-  ]
-}
+]
