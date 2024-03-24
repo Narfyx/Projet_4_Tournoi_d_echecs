@@ -1,12 +1,12 @@
+"""utils func for player"""
 try:
     from model_player import PlayerModel
 except ModuleNotFoundError:
     from model.model_player import PlayerModel
-from pprint import pprint
 from colorama import Fore
 
 
-def validate_players_id(list_player=[]):
+def validate_players_id(list_player):
     """
     Validates the identification codes of players.
 
@@ -31,7 +31,7 @@ def validate_players_id(list_player=[]):
             print(Fore.RED + f"ERROR {player_id} is not found in players database" + Fore.RESET)
             return None
     return list_player_upper
-    
+
 
 if __name__ == '__main__':
     result = validate_players_id(list_player=["ab12345", "ac12345"])

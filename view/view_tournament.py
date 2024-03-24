@@ -1,10 +1,11 @@
-"""tournament game display"""
+"""tournament display"""
 from simple_term_menu import TerminalMenu
 
 try:
-    from view.view_main import ClearTerminal
+    from view.view_main import clear_terminal
 except ModuleNotFoundError:
-    from view_main import ClearTerminal
+    from view_main import clear_terminal
+
 
 class TournamentView:
     """
@@ -18,7 +19,7 @@ class TournamentView:
         Returns:
             int: The index of the selected option.
         """
-        ClearTerminal()
+        clear_terminal()
         print("==================")
         options = ["Create tournament", "Select and start tournament", "Return to main menu"]
 
@@ -34,7 +35,7 @@ class TournamentView:
         Returns:
             tuple: A tuple containing the tournament details entered by the user.
         """
-        ClearTerminal()
+        clear_terminal()
         players = []
 
         print("======= CREATE TOURNAMENT =======")
@@ -80,8 +81,9 @@ class TournamentView:
         menu_entry_index = terminal_menu.show()
         print(f"You have selected {options[menu_entry_index]}!")
         input("Press keyboard")
-        ClearTerminal()
+        clear_terminal()
         return menu_entry_index
+
 
 if __name__ == '__main__':
     print()

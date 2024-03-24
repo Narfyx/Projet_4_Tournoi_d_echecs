@@ -1,11 +1,10 @@
+"""model tournament"""
 import datetime
 import json
 import os
-import random
 import re
 from colorama import Fore
-from pprint import pprint
-from player_manager import validate_players_id
+from model.player_manager import validate_players_id
 
 
 class ModelCreateTournaments:
@@ -13,13 +12,20 @@ class ModelCreateTournaments:
     def __init__(self, path_file="data/tournaments/tournaments.json"):
         """Initialize tournament data."""
         if os.path.exists(path_file):
-            with open(path_file) as file:
+            with open(path_file, encoding="utf-8") as file:
                 self.tournament_data = json.load(file)
         else:
             self.tournament_data = []
+        self.name = None
+        self.location = None
+        self.date_start = None
+        self.date_end = None
+        self.players_id = None
+        self.description = None
+        self.num_rounds = None
 
-    def setter_tournament(self, input_name=None, input_location=None, input_date_start=None, 
-                          input_date_end=None, input_players_id=None, input_description=None, 
+    def setter_tournament(self, input_name=None, input_location=None, input_date_start=None,
+                          input_date_end=None, input_players_id=None, input_description=None,
                           input_num_rounds=None):
         """Set tournament attributes."""
         self.name = self._validate_name(input_name, "upper")
@@ -30,8 +36,8 @@ class ModelCreateTournaments:
         self.description = input_description
         self.num_rounds = input_num_rounds
 
-        if any(info is None for info in (self.name, self.location, self.date_start, 
-                                         self.date_end, self.players_id, self.description, 
+        if any(info is None for info in (self.name, self.location, self.date_start,
+                                         self.date_end, self.players_id, self.description,
                                          self.num_rounds)):
             print(Fore.RED + "ERROR a variable is invalid set to None" + Fore.RESET)
             return False
@@ -50,7 +56,7 @@ class ModelCreateTournaments:
 
         self.tournament_data.append(tournament_data)
 
-        with open(path_file, 'w') as file:
+        with open(path_file, 'w', encoding="utf-8") as file:
             json.dump(self.tournament_data, file, indent=4)
             print(Fore.GREEN + f"save tournament {self.name} successfully" + Fore.RESET)
 
@@ -67,7 +73,7 @@ class ModelCreateTournaments:
         print(Fore.RED + "ERROR name or location invalid" + Fore.RESET)
         return None
 
-    def _validate_date(self, date_tournament_str:str):
+    def _validate_date(self, date_tournament_str: str):
         """Validate tournament date."""
         if date_tournament_str is None:
             return None
@@ -82,24 +88,5 @@ class ModelCreateTournaments:
         day = date_tournament.day
         month = date_tournament.month
         year = date_tournament.year
-  
+
         return f"{day}/{month}/{year}"
-
-
-if __name__ == '__main__':
-    tournament1 = ModelCreateTournaments()
-    return_result = tournament1.setter_tournament(
-        input_name="tournament-PARIS",
-        input_location="paris",
-        input_date_start="10/10/2000",
-        input_date_end="11/10/2000",
-        input_players_id=["ab12345", "ac12345"],
-        input_description="ceci est une description",
-        input_num_rounds="4"
-    )
-    
-    print(tournament1.name)
-    print(tournament1.location)
-
-    if return_result != False:
-        tournament1.save_tournament_to_json()

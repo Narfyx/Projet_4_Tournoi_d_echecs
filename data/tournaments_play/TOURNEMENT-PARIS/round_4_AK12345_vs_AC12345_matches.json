@@ -1,0 +1,21 @@
+[
+    {
+        "player1": {
+            "first_name": "Zozo",
+            "last_name": "ZAZA",
+            "birth_date": "10/10/2000",
+            "identification_code": "AK12345",
+            "score": 4
+        },
+        "player2": {
+            "first_name": "Titi",
+            "last_name": "XYZ",
+            "birth_date": "10/10/2000",
+            "identification_code": "AC12345",
+            "score": 0
+        },
+        "result": "win",
+        "date_start": "2024-03-24 20:09:03.485633",
+        "date_end": "2024-03-24 20:09:04.006999"
+    }
+]

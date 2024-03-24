@@ -22,5 +22,3 @@ class Match:
             self.player1["score"] += 1
         elif result == "loss":
             self.player2["score"] += 1
-
-        # Afficher les scores mis à jour

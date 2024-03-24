@@ -1,0 +1,40 @@
+[
+    {
+        "player1": {
+            "first_name": "Zozo",
+            "last_name": "ZAZA",
+            "birth_date": "10/10/2000",
+            "identification_code": "AK12345",
+            "score": 5
+        },
+        "player2": {
+            "first_name": "Tutu",
+            "last_name": "TYTY",
+            "birth_date": "10/10/2000",
+            "identification_code": "AG12345",
+            "score": 4
+        },
+        "result": "win",
+        "date_start": "2024-03-24 20:09:13.813851",
+        "date_end": "2024-03-24 20:09:15.158332"
+    },
+    {
+        "player1": {
+            "first_name": "Zozo",
+            "last_name": "ZAZA",
+            "birth_date": "10/10/2000",
+            "identification_code": "AK12345",
+            "score": 9
+        },
+        "player2": {
+            "first_name": "Tutu",
+            "last_name": "TYTY",
+            "birth_date": "10/10/2000",
+            "identification_code": "AG12345",
+            "score": 4
+        },
+        "result": "win",
+        "date_start": "2024-03-24 20:09:20.555212",
+        "date_end": "2024-03-24 20:09:21.113612"
+    }
+]

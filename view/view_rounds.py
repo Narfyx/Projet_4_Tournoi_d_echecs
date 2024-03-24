@@ -1,12 +1,11 @@
-import os
-import subprocess
+"""rounds display"""
 import pandas as pd
 from simple_term_menu import TerminalMenu
 
 try:
-    from view.view_main import ClearTerminal
+    from view.view_main import clear_terminal
 except ModuleNotFoundError:
-    from view_main import ClearTerminal
+    from view_main import clear_terminal
 
 
 class RoundsView:
@@ -37,16 +36,16 @@ class RoundsView:
         input("Press keyboard")
         return menu_entry_index
 
-    def display_pairs(self, data):
+    def display_pairs(self, data_pair):
         """
         Displays the pairs for the round.
 
         Args:
-            data (list): List of player pairs for the round.
+            data_pair (list): List of player pairs for the round.
         """
-        ClearTerminal()
+        clear_terminal()
         print("=========================================")
-        for pair in data:
+        for pair in data_pair:
             print("\n")
             dataframe = pd.DataFrame(pair)
             print(f"Affrontement {pair[0]['first_name']} VS {pair[1]['first_name']}")
@@ -56,18 +55,18 @@ class RoundsView:
         print("=========================================")
         input("Press keyboard")
 
-    def print_result(self, data):
+    def print_result(self, data_end_tournament):
         """
         Prints the result of the round.
 
         Args:
             data (list): List containing the result of the round.
         """
-        ClearTerminal()
+        clear_terminal()
         print("=========================================")
-        print(f"Winner is {data[0]['first_name']} !")
+        print(f"Winner is {data_end_tournament[0]['first_name']} !")
         print("=========================================")
-        dataframe = pd.DataFrame(data)
+        dataframe = pd.DataFrame(data_end_tournament)
         print(dataframe)
         print("=========================================")
         input("Press keyboard")

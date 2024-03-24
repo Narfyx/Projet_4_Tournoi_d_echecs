@@ -1,12 +1,13 @@
+"""model round"""
 import os
 import json
 import random
-import pickle
-import pandas as pd
 import datetime
-from pprint import pprint
+import pandas as pd
+
+
 from model.model_match import Match  # Import the Match class here
-from view.view_rounds import roundsView
+from view.view_rounds import RoundsView
 
 
 class Round():
@@ -21,10 +22,13 @@ class Round():
             file_dir (str, optional): Directory path to store match data files. Defaults to 'data/tournaments_play'.
         """
         self.tournament = tournament
-        self.list_players = [player for player in players if player['identification_code'] in self.tournament['players_id']]
+        self.list_players = [
+            player
+            for player in players
+            if player['identification_code'] in self.tournament['players_id']]
+
         self.actual_round = 1
         random.shuffle(self.list_players)
-        self.MAX_SCORE_DIFFERENCE = 2
         self.score = 0
         self.num_rounds = tournament['num_rounds']
         self.players_pair = []
@@ -49,9 +53,9 @@ class Round():
                 # Convert pair to DataFrame
                 pair_df = pd.DataFrame(pair)
 
-                # Get match result from roundsView
-                rounds_view = roundsView()
-                result_index = rounds_view.resultRoundsView(pair_df, pair_df['first_name'].tolist() + ['equal'])
+                # Get match result from RoundsView
+                rounds_view = RoundsView()
+                result_index = rounds_view.result_rounds_view(pair_df, pair_df['first_name'].tolist() + ['equal'])
                 result_options = ["win", "loss", "draw"]
                 match_result = result_options[result_index]
 
@@ -97,19 +101,22 @@ class Round():
             os.makedirs(tournament_dir)
 
         # Create or open file to save match results
-        match_file = os.path.join(tournament_dir, f"round_{self.actual_round}_{match_result['player1']['identification_code']}_vs_{match_result['player2']['identification_code']}_matches.json")
+        player1 = match_result['player1']['identification_code']
+        player2 = match_result['player2']['identification_code']
+
+        match_file = os.path.join(tournament_dir, f"round_{self.actual_round}_{player1}_vs_{player2}_matches.json")
         if not os.path.exists(match_file):
-            with open(match_file, "w") as f:
+            with open(match_file, "w", encoding="utf-8") as f:
                 # Start with an empty list if the file doesn't exist yet
                 json.dump([], f)
 
         # Load previous results if they exist
-        with open(match_file, "r") as f:
+        with open(match_file, "r", encoding="utf-8") as f:
             previous_results = json.load(f)
 
         # Add new result to the list of previous results
         previous_results.append(match_result)
 
         # Write all results to the JSON file, encapsulated in a list
-        with open(match_file, "w") as f:
+        with open(match_file, "w", encoding="utf-8") as f:
             json.dump(previous_results, f, indent=4)

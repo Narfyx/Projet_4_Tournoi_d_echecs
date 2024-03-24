@@ -1,11 +1,10 @@
-import os
-import subprocess
-from simple_term_menu import TerminalMenu
+"""player display"""
 
 try:
-    from view.view_main import ClearTerminal
+    from view.view_main import clear_terminal
 except ModuleNotFoundError:
-    from view_main import ClearTerminal
+    from view_main import clear_terminal
+
 
 class PlayerView:
     """
@@ -19,7 +18,7 @@ class PlayerView:
         Returns:
             tuple: A tuple containing the details of the new player entered by the user.
         """
-        ClearTerminal()
+        clear_terminal()
 
         print("======= ADD NEW PLAYER =======")
         first_name = input("Enter the player's first name : ")
@@ -42,6 +41,8 @@ class PlayerView:
         print("=========================================")
         input("Press keyboard")
 
+
 if __name__ == '__main__':
+
     affichage = PlayerView()
     affichage.start_view_add_player()

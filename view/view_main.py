@@ -1,13 +1,16 @@
+"""main menu display"""
 import os
 import subprocess
 from simple_term_menu import TerminalMenu
 
-def ClearTerminal():
+
+def clear_terminal():
     """
     Clears the terminal screen.
     """
     command = 'cls' if os.name == 'nt' else 'clear'
     subprocess.call(command, shell=True)
+
 
 class MainView:
     """
@@ -21,7 +24,7 @@ class MainView:
         Returns:
             int: The index of the selected option.
         """
-        ClearTerminal()
+        clear_terminal()
         print("==================")
         options = ["Add new player", "Tournaments", "Print all players", "Quit"]
 
@@ -29,6 +32,7 @@ class MainView:
         menu_entry_index = terminal_menu.show()
         print(f"You have selected {options[menu_entry_index]}!")
         return menu_entry_index
+
 
 if __name__ == '__main__':
     affichage = MainView()

@@ -1,37 +1,36 @@
-import time
+"""main controler"""
 
-from view.view_main import ClearTerminal
-from view.view_main import mainView #(StartView, StartTournamentView)
+from view.view_main import MainView
 
-from control.control_player import controlPlayer #create_player
-from control.control_tournament import controlTournament
+from control.control_player import ControlPlayer
+from control.control_tournament import ControlTournament
 
 
 class MainControl:
     """Contrôleur principal."""
     def __init__(self):
-        self.run(mainView.StartView(self))
+        self.run(MainView.start_view(self))
 
     def run(self, choice):
         """Run the App."""
-        if choice == 0: # Add new player
+        if choice == 0:  # Add new player
             try:
-                controlPlayer.create_player(self)
+                ControlPlayer.create_player(self)
             except KeyboardInterrupt:
                 MainControl()
 
-            print("0 OK")
-        elif choice == 1: # Tournaments
+            MainControl()
+        elif choice == 1:  # Tournaments
             try:
-                controlTournament.tournament(self)
+                ControlTournament.tournament(self)
             except TypeError:
                 MainControl()
             except KeyboardInterrupt:
                 MainControl()
-            
             MainControl()
-        elif choice == 2: # Print all players
-            controlPlayer.print_players(self)
-        elif choice == 3: # Quit
+        elif choice == 2:  # Print all players
+            ControlPlayer.print_players(self)
+            MainControl()
+        elif choice == 3:  # Quit
             exit()
         exit()

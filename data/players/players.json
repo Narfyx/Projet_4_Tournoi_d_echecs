@@ -34,5 +34,23 @@
         "last_name": "TEST-A",
         "birth_date": "10/10/2000",
         "identification_code": "AM12345"
+    },
+    {
+        "first_name": "Popo",
+        "last_name": "PAPA",
+        "birth_date": "10/10/2000",
+        "identification_code": "AN12345"
+    },
+    {
+        "first_name": "Sisi",
+        "last_name": "SOSO",
+        "birth_date": "10/10/2000",
+        "identification_code": "AU12345"
+    },
+    {
+        "first_name": "Jean",
+        "last_name": "DUPONT",
+        "birth_date": "10/1/1969",
+        "identification_code": "AB00001"
     }
 ]

@@ -10,13 +10,36 @@ class PlayerModel:
     """_summary_"""
     def __init__(self, path_file="data/players/players.json"):
         if os.path.exists(path_file):
-            with open(path_file) as file:
+            with open(path_file, encoding="utf-8") as file:
                 self.players_data = json.load(file)
         else:
             self.players_data = []
+        self.first_name = None
+        self.last_name = None
+        self.birth_date = None
+        self.identification_code = None
 
     def setter_player(self, input_first_name=None, input_last_name=None,
                       input_birth_date=None, input_identification_code=None):
+        """Définit les attributs d'un joueur à partir des données fournies.
+
+        Cette méthode prend en entrée les informations d'un joueur telles que le prénom,
+        le nom de famille, la date de naissance et le code d'identification, puis les
+        valide et les assigne aux attributs correspondants de l'instance PlayerModel.
+
+        Args:
+            input_first_name (str, optional): Le prénom du joueur.
+            input_last_name (str, optional): Le nom de famille du joueur.
+            input_birth_date (str, optional): La date de naissance du joueur au format
+                'jj/mm/aaaa'.
+            input_identification_code (str, optional): Le code d'identification unique
+                du joueur.
+
+        Returns:
+            bool: False si l'une des informations fournies est invalide ou manquante,
+            sinon True.
+
+        """
         self.first_name = self._validate_name(input_first_name, "capitalize")
         self.last_name = self._validate_name(input_last_name, "upper")
         self.birth_date = self._validate_birth_date(input_birth_date)
@@ -30,6 +53,16 @@ class PlayerModel:
             return False
 
     def save_player_to_json(self, path_file="data/players/players.json"):
+        """Sauvegarde les données d'un joueur au format JSON.
+
+        Args:
+            path_file (str, optional): Le chemin du fichier JSON où sauvegarder les données.
+                Par défaut, le chemin est "data/players/players.json".
+
+        Returns:
+            None
+
+        """
         player_data = {
             "first_name": self.first_name,
             "last_name": self.last_name,
@@ -39,7 +72,7 @@ class PlayerModel:
 
         self.players_data.append(player_data)
 
-        with open(path_file, 'w') as file:
+        with open(path_file, 'w', encoding="utf-8") as file:
             json.dump(self.players_data, file, indent=4)
             print(Fore.GREEN +
                   f"save player {self.identification_code} successfully" +
@@ -82,8 +115,7 @@ class PlayerModel:
             return None
 
         try:
-            birth_date = datetime.datetime.strptime(birth_date_str,
-                                                     "%d/%m/%Y").date()
+            birth_date = datetime.datetime.strptime(birth_date_str, "%d/%m/%Y").date()
         except ValueError:
             print(Fore.RED + "ERROR birth date invalid" + Fore.RESET)
             return None
@@ -106,7 +138,7 @@ if __name__ == '__main__':
     )
     print(player1.first_name)
     print(player1.last_name)
-    if player1.setter_player != False:
+    if player1.setter_player is not False:
         player1.save_player_to_json(path_file="../data/players/players.json")
 
     player2 = PlayerModel(path_file="../data/players/players.json")
@@ -119,5 +151,5 @@ if __name__ == '__main__':
     )
     print(player2.first_name)
     print(player2.last_name)
-    if player2.setter_player != False:
+    if player2.setter_player is not False:
         player2.save_player_to_json(path_file="../data/players/players.json")
