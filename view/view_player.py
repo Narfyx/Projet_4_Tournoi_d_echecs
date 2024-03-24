@@ -7,12 +7,17 @@ try:
 except ModuleNotFoundError:
     from view_main import ClearTerminal
 
-class PlayerView():
+class PlayerView:
+    """
+    Class for displaying player-related views and collecting user inputs.
+    """
+
     def start_view_add_player(self):
-        """_show_add_new_player_menu_
+        """
+        Displays the view for adding a new player.
 
         Returns:
-            str: _description_
+            tuple: A tuple containing the details of the new player entered by the user.
         """
         ClearTerminal()
 
@@ -22,19 +27,21 @@ class PlayerView():
         birth_date = input("Enter the player's birth date (format: DD/MM/YYYY) : ")
         identification_code = input("Enter the identification code : ")
         print("=========================================")
-        input("Press Enter to return to the main menu...")
+        input("Press keyboard")
         return first_name, last_name, birth_date, identification_code
 
     def show_players(self, dataframe):
+        """
+        Displays the list of players.
+
+        Args:
+            dataframe (DataFrame): The DataFrame containing player data.
+        """
         print("=========================================")
         print(dataframe)
         print("=========================================")
-        input("Press Enter to return to the main menu...")
-
-
-
-
+        input("Press keyboard")
 
 if __name__ == '__main__':
-    affichage = addPlayerView()
+    affichage = PlayerView()
     affichage.start_view_add_player()

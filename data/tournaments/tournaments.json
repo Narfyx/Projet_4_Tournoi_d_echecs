@@ -6,7 +6,9 @@
         "date_end": "11/10/2000",
         "players_id": [
             "AB12345",
-            "AC12345"
+            "AC12345",
+            "AG12345",
+            "AK12345"
         ],
         "description": "ceci est une description",
         "num_rounds": "4"

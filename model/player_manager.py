@@ -7,9 +7,16 @@ from colorama import Fore
 
 
 def validate_players_id(list_player=[]):
-    #print(f"rentre dans la fonction validate_players_id valeur input list = {list_player}")
+    """
+    Validates the identification codes of players.
+
+    Args:
+        list_player (list): List of player identification codes.
+
+    Returns:
+        list or None: List of validated player identification codes (all uppercase) or None if validation fails.
+    """
     players_data = PlayerModel().players_data
-    #pprint(f"Affiche la listes des players enregister dans la BDD modelplayer {players_data}")
     list_player_upper = []
     for player_id in list_player:
         found = False
@@ -24,8 +31,8 @@ def validate_players_id(list_player=[]):
             print(Fore.RED + f"ERROR {player_id} is not found in players database" + Fore.RESET)
             return None
     return list_player_upper
+    
 
 if __name__ == '__main__':
     result = validate_players_id(list_player=["ab12345", "ac12345"])
     print(result)
-

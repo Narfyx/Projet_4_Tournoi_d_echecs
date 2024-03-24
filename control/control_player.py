@@ -1,7 +1,6 @@
 import time
 import pandas as pd
 
-
 from model.model_player import PlayerModel
 from model.model_tournaments import ModelCreateTournaments
 
@@ -23,7 +22,6 @@ class controlPlayer():
             input_last_name=create_player[1],
             input_birth_date=create_player[2],
             input_identification_code=create_player[3])
-                
                 
         if status_create_player is False:
             time.sleep(1)
