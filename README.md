@@ -1,6 +1,12 @@
-# JustStreamIt
+![alt text](https://user.oc-static.com/upload/2020/09/22/16007793690358_chess%20club-01.png)
+
+# Club d'échecs
+
 
 Project 4 Développez un programme logiciel en Python
+
+![alt text](exemple_tournois.png)
+
 
 ## Objective:
 Dans les projets précédents, vous avez déjà découvert les bases de la programmation en Python ainsi que les clés de la gestion du projet du développement.
@@ -21,6 +27,7 @@ Votre mission consiste à aider vos amis à organiser des tournois d'échecs en 
 
 ## Requirements
 
+### Venv
 -for windows:
 ```python
 c:\>python -m venv c:\path\to\Projet_4_Tournoi_d_echecs
@@ -30,7 +37,7 @@ c:\>python -m venv c:\path\to\Projet_4_Tournoi_d_echecs
 python -m venv /path/to/Projet_4_Tournoi_d_echecs
 ```
 
-
+### Souce activate
 -for windows:
 ```python
 c:\>path\to\Projet_4_Tournoi_d_echecs\Scripts\activate.bat
@@ -40,7 +47,7 @@ c:\>path\to\Projet_4_Tournoi_d_echecs\Scripts\activate.bat
 source /path/to/Projet_4_Tournoi_d_echecs/bin/activate
 ```
 
-
+### install requirements
 ```python
 pip install -r requirements.txt
 ```
@@ -70,7 +77,8 @@ lancer python.py
 ```bash
 python python.py
 ```
-### menu principal
+### Menu principal
 ![alt text](main_menu.png)
+
 Depuis ce menu vous pouvez créer un nouveau joueur, gérer les tournois, afficher tout les joueurs créer et tout simplement quitter le programme si vous en avez assez :)
 
